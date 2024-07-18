@@ -23,4 +23,3 @@ class OperandNode(Node):
             return self.left.evaluate(variables) / self.right.evaluate(variables)
         else:
             raise ValueError(f"Unknown operator: {self.operator}")
-
