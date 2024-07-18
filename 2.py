@@ -24,3 +24,15 @@ class OperandNode(Node):
         else:
             raise ValueError(f"Unknown operator: {self.operator}")
 
+class VariableNode(Node):
+    def __init__(self, var_name):
+        self.var_name = var_name
+
+    def evaluate(self, variables):
+        return variables[self.var_name]
+class ConstantNode(Node):
+    def __init__(self, value):
+        self.value = value
+
+    def evaluate(self, variables):
+        return self.value
