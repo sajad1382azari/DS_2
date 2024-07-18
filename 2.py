@@ -36,3 +36,29 @@ class ConstantNode(Node):
 
     def evaluate(self, variables):
         return self.value
+
+class MultiExpressionNode(Node):
+    def __init__(self, expressions):
+        self.expressions = expressions
+
+    def evaluate(self, variables):
+        return tuple(expr.evaluate(variables) for expr in self.expressions)
+
+# Example: f(x1, x2) = (x1 / x2, x2 + x1 + 1, x1 + 1)
+example = MultiExpressionNode([
+    OperandNode('/', VariableNode('x1'), VariableNode('x2')),
+    OperandNode('+', OperandNode('+', VariableNode('x2'), VariableNode('x1')), ConstantNode(1)),
+    OperandNode('+', VariableNode('x1'), ConstantNode(1))
+])
+
+# Function to evaluate an expression tree given a dictionary of variables
+def evaluate_expression_tree(tree, variables):
+    return tree.evaluate(variables)
+
+# Test the example
+variable_sets = [{'x1': 1, 'x2': 2}, {'x1': 2, 'x2': 3}, {'x1': 3, 'x2': 4}, {'x1': 4, 'x2': 5}]
+
+print("Example: f(x1, x2) = (x1 / x2, x2 + x1 + 1, x1 + 1)")
+for variables in variable_sets:
+    print(f"x1 = {variables['x1']}, x2 = {variables['x2']}, f(x1, x2) = {evaluate_expression_tree(example, variables)}")
+
